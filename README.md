@@ -16,6 +16,6 @@ Dieses Repository enthält den öffentlich offengelegten Quellcode des BIM Viewe
 - interne XKT-Dateien
 
 ## Lizenz
-Dieses Projekt basiert auf [xeokit-bim-viewer / xeokit SDK](https://github.com/xeokit/xeokit-bim-viewer){:target="_blank" rel="noopener"}.
+Dieses Projekt basiert auf [xeokit-bim-viewer / xeokit SDK](https://github.com/xeokit/xeokit-bim-viewer).
 Lizenzhinweise und Quelloffenlegung gemäss AGPLv3.
 
