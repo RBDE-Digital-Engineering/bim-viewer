@@ -1,15 +1,19 @@
 :root {
-    --rbde-blue: #014d70;
-    --rbde-pink: #fc16a5;
-    --rbde-canvas: #edf0f5;
+    --rbde-blue: #0f547c;
+    --rbde-blue-dark: #0b4769;
+    --rbde-blue-deep: #083955;
+    --rbde-pink: #ff2aa3;
     --rbde-white: #ffffff;
-    --rbde-border: #0b678f;
-    --rbde-shadow: rgba(1, 77, 112, 0.18);
-    --explorer-width: 460px;
-    --inspector-width: 358px;
-    --toggle-top: 10px;
-    --toggle-left: 20px;
-    --toggle-right: 20px;
+    --rbde-canvas: #efefef;
+    --rbde-border: #0f547c;
+    --rbde-shadow: rgba(15, 84, 124, 0.18);
+    --toolbar-bottom: 56px;
+    --toolbar-radius: 16px;
+    --toolbar-pad-y: 6px;
+    --toolbar-pad-x: 10px;
+    --toolbar-btn-size: 40px;
+    --toolbar-btn-radius: 10px;
+    --toolbar-gap: 6px;
 }
 
 html,
@@ -20,16 +24,19 @@ body {
 }
 
 body {
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     margin: 0;
     overflow: hidden;
-    color: var(--rbde-blue);
+    color: var(--rbde-blue-deep);
 }
 
-/* Main viewer area */
+/* =========================================================
+   MAIN VIEWER
+   ========================================================= */
+
 #myViewer {
     display: flex;
     width: 100%;
@@ -42,24 +49,8 @@ body {
     --left: 0;
     --right: 0;
     transition: all 300ms ease-in-out;
-    background: var(--rbde-canvas);
 }
 
-/* Toolbar */
-#myToolbar {
-    min-width: 400px;
-    top: 0;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    z-index: 100000;
-    pointer-events: none;
-    position: fixed;
-    left: 95px;
-    transition: all 300ms ease-in-out;
-}
-
-/* Canvas */
 #myCanvas {
     width: 100%;
     height: 100%;
@@ -70,7 +61,6 @@ body {
     position: relative;
 }
 
-/* Nav cube */
 #myNavCubeCanvas {
     position: absolute;
     width: 200px;
@@ -80,60 +70,170 @@ body {
     z-index: 200000;
 }
 
-/* Explorer panel */
+/* =========================================================
+   TOOLBAR BOTTOM CENTER
+   ========================================================= */
+
+#myToolbar {
+    position: fixed;
+    left: 50%;
+    bottom: var(--toolbar-bottom);
+    transform: translateX(-50%);
+    z-index: 100000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    max-width: calc(100vw - 32px);
+    padding: 4px 6px;
+    border-radius: var(--toolbar-radius);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    pointer-events: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    transition: all 300ms ease-in-out;
+}
+
+#myToolbar::-webkit-scrollbar {
+    display: none;
+}
+
+#myToolbar .xeokit-toolbar {
+    display: inline-flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: var(--toolbar-btn-size) !important;
+    background: transparent !important;
+}
+
+#myToolbar .xeokit-btn-group {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    vertical-align: middle !important;
+    margin: 0 var(--toolbar-gap) 0 0 !important;
+    padding: 0 !important;
+    min-height: var(--toolbar-btn-size) !important;
+    height: var(--toolbar-btn-size) !important;
+    background: transparent !important;
+    box-sizing: border-box !important;
+    box-shadow: none !important;
+    border: 0 !important;
+}
+
+#myToolbar .xeokit-btn-group:last-child {
+    margin-right: 0 !important;
+}
+
+/* Slice group stabil */
+#myToolbar .xeokit-btn-group:last-child,
+#myToolbar .xeokit-btn-group:has(.fa-cut),
+#myToolbar .xeokit-btn-group:has(.fa-scissors) {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    height: var(--toolbar-btn-size) !important;
+    min-height: var(--toolbar-btn-size) !important;
+}
+
+#myToolbar .xeokit-btn,
+#myToolbar button.xeokit-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    color: var(--rbde-blue) !important;
+    border: 2px solid var(--rbde-blue) !important;
+    border-radius: var(--toolbar-btn-radius) !important;
+    min-width: var(--toolbar-btn-size) !important;
+    height: var(--toolbar-btn-size) !important;
+    line-height: 1 !important;
+    padding: 0 8px !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    pointer-events: all;
+}
+
+#myToolbar .xeokit-btn.active,
+#myToolbar button.xeokit-btn.active,
+#myToolbar .xeokit-btn:active,
+#myToolbar button.xeokit-btn:active {
+    background: var(--rbde-blue) !important;
+    color: var(--rbde-white) !important;
+    border-color: var(--rbde-blue) !important;
+}
+
+#myToolbar .xeokit-btn .caret,
+#myToolbar .xeokit-btn .fa-caret-down,
+#myToolbar .xeokit-btn .fa-chevron-down,
+#myToolbar button.xeokit-btn .caret,
+#myToolbar button.xeokit-btn .fa-caret-down,
+#myToolbar button.xeokit-btn .fa-chevron-down {
+    margin-left: 6px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* =========================================================
+   EXPLORER
+   ========================================================= */
+
 #myExplorer {
     position: fixed;
     height: 100%;
     color: var(--rbde-white);
     background: var(--rbde-blue);
     overflow: auto;
-    border-right: 1px solid var(--rbde-border);
-    box-shadow: 4px 0 18px var(--rbde-shadow);
-    padding: 0;
-    padding-bottom: 100px;
-    padding-left: 15px;
+    border-right: 2px solid var(--rbde-border);
+    padding: 0 0 100px 15px;
     user-select: none;
     top: 0;
-    left: calc(-1 * var(--explorer-width));
+    left: -460px;
     z-index: 10;
-    width: var(--explorer-width);
+    width: 460px;
     transition: all 300ms ease-in-out;
+    box-shadow: 6px 0 16px var(--rbde-shadow);
 }
 
-/* Explorer toggle */
 #explorer_toggle {
     display: none;
 }
 
 .explorer_toggle_label {
     position: absolute;
-    top: var(--toggle-top);
-    left: var(--toggle-left);
-    -webkit-user-select: none;
-    -ms-user-select: none;
+    top: 10px;
+    left: 20px;
     user-select: none;
-    flex: 1 1 auto;
     color: var(--rbde-blue);
     background-color: var(--rbde-white);
     text-align: center;
     vertical-align: middle;
     border: 2px solid var(--rbde-blue);
     padding: .375rem .75rem;
-    border-radius: .45rem;
+    border-radius: .25rem;
     -webkit-appearance: button;
     overflow: visible;
     margin: 0 2px 0 0;
     box-sizing: border-box;
-    align-items: flex-start;
     pointer-events: all;
     z-index: 100000;
     transition: all 300ms ease-in-out;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
 }
 
 .explorer_toggle_label:hover {
     cursor: pointer;
-    background: #f7fbfd;
+    background: #f8fbfd;
 }
 
 #explorer_toggle:checked + .explorer_toggle_label {
@@ -148,24 +248,20 @@ body {
 }
 
 #explorer_toggle:checked ~ #myViewer {
-    left: var(--explorer-width);
+    left: 460px;
     --left: 460;
     width: calc(100% - (var(--left) + var(--right)));
 }
 
-#explorer_toggle:checked ~ #myToolbar {
-    left: 555px;
-}
-
 #explorer_toggle:not(:checked) + .explorer_toggle_label {
-    left: var(--toggle-left);
+    left: 20px;
     color: var(--rbde-white);
     background-color: var(--rbde-blue);
     border-color: var(--rbde-blue);
 }
 
 #explorer_toggle:not(:checked) ~ #myExplorer {
-    left: calc(-1 * var(--explorer-width));
+    left: -460px;
 }
 
 #explorer_toggle:not(:checked) ~ #myViewer {
@@ -174,61 +270,60 @@ body {
     width: calc(100% - var(--right));
 }
 
+/* Toolbar always centered */
+#explorer_toggle:checked ~ #myToolbar,
 #explorer_toggle:not(:checked) ~ #myToolbar {
-    left: 95px;
+    left: 50%;
 }
 
-/* Inspector panel */
+/* =========================================================
+   INSPECTOR
+   ========================================================= */
+
 #myInspector {
     position: absolute;
     height: 100%;
     color: var(--rbde-white);
     background: var(--rbde-blue);
     overflow: auto;
-    border-left: 1px solid var(--rbde-border);
-    box-shadow: -4px 0 18px var(--rbde-shadow);
+    border-left: 2px solid var(--rbde-border);
     padding: 0;
     top: 0;
     right: -360px;
     z-index: 40;
-    width: var(--inspector-width);
+    width: 358px;
     transition: all 300ms ease-in-out;
+    box-shadow: -6px 0 16px var(--rbde-shadow);
 }
 
-/* Inspector toggle */
 #inspector_toggle {
     display: none;
 }
 
 .inspector_toggle_label {
     position: absolute;
-    top: var(--toggle-top);
-    right: var(--toggle-right);
-    -webkit-user-select: none;
-    -ms-user-select: none;
+    top: 10px;
+    right: 20px;
     user-select: none;
-    flex: 1 1 auto;
     color: var(--rbde-blue);
     background-color: var(--rbde-white);
     text-align: center;
     vertical-align: middle;
     border: 2px solid var(--rbde-blue);
     padding: .375rem .75rem;
-    border-radius: .45rem;
+    border-radius: .25rem;
     -webkit-appearance: button;
     overflow: visible;
     margin: 0 2px 0 0;
     box-sizing: border-box;
-    align-items: flex-start;
     pointer-events: all;
     z-index: 100000;
     transition: all 300ms ease-in-out;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
 }
 
 .inspector_toggle_label:hover {
     cursor: pointer;
-    background: #f7fbfd;
+    background: #f8fbfd;
 }
 
 #inspector_toggle:checked + .inspector_toggle_label {
@@ -260,321 +355,144 @@ body {
     width: calc(100% - var(--left));
 }
 
-/* General text and panel styling */
-#myExplorer *,
-#myInspector * {
-    box-sizing: border-box;
-}
-
-#myExplorer a,
-#myInspector a {
-    color: var(--rbde-white);
-    text-decoration: none;
-}
-
-#myExplorer a:hover,
-#myInspector a:hover {
-    color: #d9f2ff;
-}
-
-/* Improve heading underline / section lines */
-#myExplorer hr,
-#myInspector hr {
-    border: 0;
-    border-top: 2px solid rgba(255, 255, 255, 0.18);
-}
-
-/* Buttons inside side panels */
-#myExplorer button,
-#myInspector button {
-    border: 2px solid rgba(255, 255, 255, 0.85);
-    color: var(--rbde-white);
-    background: transparent;
-    border-radius: .45rem;
-    padding: .5rem .9rem;
-    transition: all 160ms ease-in-out;
-}
-
-#myExplorer button:hover,
-#myInspector button:hover {
-    background: rgba(255, 255, 255, 0.08);
-    cursor: pointer;
-}
-
-/* Checkbox accent in supported browsers */
-#myExplorer input[type="checkbox"],
-#myInspector input[type="checkbox"] {
-    accent-color: var(--rbde-pink);
-}
-
-/* Scrollbars */
-#myExplorer::-webkit-scrollbar,
-#myInspector::-webkit-scrollbar {
-    width: 10px;
-}
-
-#myExplorer::-webkit-scrollbar-track,
-#myInspector::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-#myExplorer::-webkit-scrollbar-thumb,
-#myInspector::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.28);
-    border-radius: 10px;
-}
-
-#myExplorer::-webkit-scrollbar-thumb:hover,
-#myInspector::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.42);
-}
-
-/* Responsive tweaks */
-@media (max-width: 1200px) {
-    :root {
-        --explorer-width: 380px;
-    }
-
-    #myExplorer {
-        width: var(--explorer-width);
-        left: calc(-1 * var(--explorer-width));
-    }
-
-    #explorer_toggle:checked ~ #myViewer {
-        left: var(--explorer-width);
-        --left: 380;
-    }
-
-    #explorer_toggle:checked + .explorer_toggle_label {
-        left: 400px;
-    }
-
-    #explorer_toggle:checked ~ #myToolbar {
-        left: 475px;
-    }
-}
-
-@media (max-width: 900px) {
-    #myToolbar {
-        min-width: auto;
-    }
-
-    #myNavCubeCanvas {
-        width: 150px;
-        height: 150px;
-    }
-}
-
 /* =========================================================
-   RBDE OVERRIDES FOR XEOKIT
+   XEOKIT RBDE STYLING
    ========================================================= */
 
-/* Seitenleisten-Inhalt sauber weiss */
-#myExplorer,
-#myInspector,
-#myExplorer .xeokit-tabs,
-#myInspector .xeokit-propertiesTab,
-#myExplorer .xeokit-tab-content,
-#myInspector .xeokit-tab-content,
-#myExplorer .xeokit-properties,
-#myInspector .xeokit-properties,
-#myExplorer .xeokit-accordion,
-#myInspector .xeokit-accordion {
-    background: var(--rbde-blue) !important;
+.xeokit-btn,
+button.xeokit-btn {
+    color: var(--rbde-blue) !important;
+    border-color: var(--rbde-blue) !important;
+    background: var(--rbde-white) !important;
+}
+
+.xeokit-btn:hover,
+button.xeokit-btn:hover {
+    color: var(--rbde-blue-dark) !important;
+    border-color: var(--rbde-blue-dark) !important;
+    background: #f8fbfd !important;
+}
+
+.xeokit-btn.active,
+button.xeokit-btn.active,
+.xeokit-btn:active,
+button.xeokit-btn:active {
+    background-color: var(--rbde-blue) !important;
+    border-color: var(--rbde-blue) !important;
     color: var(--rbde-white) !important;
 }
 
-/* Tabs oben links: Models / Objects / Classes / Storeys */
-#myExplorer .xeokit-tabs .xeokit-tab-btn {
-    color: rgba(255, 255, 255, 0.95) !important;
-    border-bottom: 3px solid transparent !important;
+/* Tabs */
+.xeokit-tabs .xeokit-tab-btn {
+    color: rgba(255, 255, 255, 0.92) !important;
+    background: transparent !important;
 }
 
-#myExplorer .xeokit-tabs .xeokit-tab-btn:hover {
+.xeokit-tabs .xeokit-tab-btn:hover {
     color: var(--rbde-pink) !important;
 }
 
-#myExplorer .xeokit-tabs .xeokit-tab.active .xeokit-tab-btn {
+.xeokit-tabs .xeokit-tab.active .xeokit-tab-btn {
+    background-color: transparent !important;
     color: var(--rbde-white) !important;
-    border-bottom: 3px solid var(--rbde-pink) !important;
-    background: transparent !important;
 }
 
-/* Inhalt der Tabs links/rechts */
-#myExplorer .xeokit-tab-content,
-#myInspector .xeokit-tab-content,
-#myInspector .xeokit-propertiesTab .panel,
-#myInspector .xeokit-propertiesTab,
-#myInspector .xeokit-propertiesTab .tab,
-#myInspector .xeokit-propertiesTab .tab-content {
+@media (min-width: 40em) {
+    .xeokit-tabs .xeokit-tab.active .xeokit-tab-btn {
+        border-bottom: var(--rbde-pink) solid 3px !important;
+    }
+}
+
+/* Explorer / Inspector areas */
+.xeokit-tabs .xeokit-tab-content,
+.xeokit-modelsTab .xeokit-form-check span,
+.xeokit-modelsTab .xeokit-form-check span.disabled,
+.xeokit-propertiesTab,
+.xeokit-propertiesTab .panel,
+.xeokit-propertiesTab .tab,
+.xeokit-propertiesTab .tab-content,
+.xeokit-properties,
+.xeokit-accordion,
+.xeokit-accordion-container,
+.xeokit-no-prop-set-warning,
+.no-object-selected-warning {
     background: var(--rbde-blue) !important;
     color: var(--rbde-white) !important;
 }
 
-/* Buttons links: Load all / Unload all */
-#myExplorer .xeokit-tabs .xeokit-btn,
-#myExplorer button.xeokit-btn,
-#myExplorer .xeokit-btn {
+/* Property tables */
+.xeokit-table,
+.xeokit-table .td1,
+.xeokit-table .td2,
+.xeokit-table th,
+.xeokit-propertiesTab .title,
+.xeokit-propertiesTab .subtitle,
+.xeokit-propertiesTab .subsubtitle,
+.xeokit-propertiesTab .tab-label {
+    color: var(--rbde-white) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
     background: transparent !important;
-    color: var(--rbde-white) !important;
-    border: 2px solid rgba(255, 255, 255, 0.9) !important;
-    box-shadow: none !important;
 }
 
-#myExplorer .xeokit-tabs .xeokit-btn:hover,
-#myExplorer button.xeokit-btn:hover,
-#myExplorer .xeokit-btn:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
-    color: var(--rbde-white) !important;
-    border-color: var(--rbde-pink) !important;
+.xeokit-propertiesTab .tab-label:hover {
+    background: rgba(255, 255, 255, 0.10) !important;
 }
 
-/* Modelle links */
-#myExplorer .xeokit-modelsTab .xeokit-form-check span,
-#myExplorer .xeokit-modelsTab .xeokit-form-check span.disabled {
-    background: var(--rbde-blue) !important;
+/* Tree */
+.xeokit-objectsTab ul li a,
+.xeokit-storeysTab ul li a,
+.xeokit-classesTab ul li a {
+    background: rgba(255, 255, 255, 0.92) !important;
+    color: var(--rbde-blue) !important;
+}
+
+.xeokit-objectsTab ul li a.plus,
+.xeokit-storeysTab ul li a.plus,
+.xeokit-classesTab ul li a.plus {
+    background: #dff3fb !important;
+    color: var(--rbde-blue) !important;
+}
+
+.xeokit-objectsTab ul li span,
+.xeokit-storeysTab ul li span,
+.xeokit-classesTab ul li span {
     color: var(--rbde-white) !important;
 }
 
-#myExplorer .xeokit-modelsTab .xeokit-form-check span:hover {
+.xeokit-objectsTab ul li span:hover,
+.xeokit-storeysTab ul li span:hover,
+.xeokit-classesTab ul li span:hover {
     background: rgba(255, 255, 255, 0.10) !important;
     color: var(--rbde-white) !important;
 }
 
-/* Toolbar-Gruppen oben: Rahmen entfernen */
-#myToolbar .xeokit-btn-group {
-    margin-right: 0.65rem !important;
-    margin-bottom: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
-}
-
-/* Toolbar-Buttons oben */
-#myToolbar .xeokit-btn,
-#myToolbar button.xeokit-btn,
-#myToolbar .xeokit-btn.active,
-#myToolbar button.xeokit-btn.active {
-    background: var(--rbde-white) !important;
-    color: var(--rbde-blue) !important;
-    border: 2px solid var(--rbde-blue) !important;
-    box-shadow: none !important;
-}
-
-/* Hover oben */
-#myToolbar .xeokit-btn:hover,
-#myToolbar button.xeokit-btn:hover {
-    background: #f7fbfd !important;
-    color: var(--rbde-blue) !important;
-    border-color: var(--rbde-pink) !important;
-}
-
-/* Aktive Buttons oben */
-#myToolbar .xeokit-btn.active,
-#myToolbar button.xeokit-btn.active,
-#myToolbar .xeokit-btn:active,
-#myToolbar button.xeokit-btn:active {
-    background: var(--rbde-blue) !important;
-    color: var(--rbde-white) !important;
-    border-color: var(--rbde-blue) !important;
-}
-
-/* Disabled-Buttons oben */
-#myToolbar .xeokit-btn.disabled,
-#myToolbar button.xeokit-btn.disabled {
-    opacity: 0.55 !important;
-    color: #9fb7c3 !important;
-    border-color: #7aa0b1 !important;
-    background: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* Rechte Properties-Seite */
-#myInspector .title,
-#myInspector .subtitle,
-#myInspector .subsubtitle,
-#myInspector .xeokit-propertiesTab .title,
-#myInspector .xeokit-propertiesTab .subtitle,
-#myInspector .xeokit-propertiesTab .subsubtitle,
-#myInspector .xeokit-no-prop-set-warning,
-#myInspector .no-object-selected-warning,
-#myInspector .xeokit-propertiesTab .tab-label,
-#myInspector .xeokit-propertiesTab .tab-content,
-#myInspector .xeokit-propertiesTab .panel,
-#myInspector .xeokit-table,
-#myInspector .xeokit-table .td1,
-#myInspector .xeokit-table .td2 {
-    color: var(--rbde-white) !important;
-}
-
-/* Accordion rechts */
-#myInspector .xeokit-accordion .xeokit-accordion-container .xeokit-accordion-button {
+/* Accordion */
+.xeokit-accordion .xeokit-accordion-container .xeokit-accordion-button {
     background: rgba(255, 255, 255, 0.10) !important;
     color: var(--rbde-white) !important;
     box-shadow: none !important;
 }
 
-#myInspector .xeokit-accordion .xeokit-accordion-container .xeokit-accordion-button:hover {
+.xeokit-accordion .xeokit-accordion-container .xeokit-accordion-button:hover {
     background: rgba(255, 255, 255, 0.16) !important;
 }
 
-#myInspector .xeokit-accordion .xeokit-accordion-container .xeokit-accordion-button span:after,
-#myInspector .xeokit-accordion .xeokit-accordion-container .xeokit-accordion-button span:before {
+.xeokit-accordion .xeokit-accordion-container .xeokit-accordion-button span:after,
+.xeokit-accordion .xeokit-accordion-container .xeokit-accordion-button span:before {
     background-color: var(--rbde-pink) !important;
 }
 
-/* Properties-Tab Hover */
-#myInspector .xeokit-propertiesTab .tab-label:hover {
-    background: rgba(255, 255, 255, 0.12) !important;
-}
-
-/* Tabellen rechts */
-#myInspector .xeokit-table .td1,
-#myInspector .xeokit-table .td2,
-#myInspector .xeokit-table th {
-    border-color: rgba(255, 255, 255, 0.20) !important;
-}
-
-/* Tree icons in Objects / Classes / Storeys */
-#myExplorer .xeokit-objectsTab ul li a,
-#myExplorer .xeokit-storeysTab ul li a,
-#myExplorer .xeokit-classesTab ul li a {
-    background: rgba(255, 255, 255, 0.90) !important;
-    color: var(--rbde-blue) !important;
-}
-
-#myExplorer .xeokit-objectsTab ul li a.plus,
-#myExplorer .xeokit-storeysTab ul li a.plus,
-#myExplorer .xeokit-classesTab ul li a.plus {
-    background: #dff6ff !important;
-    color: var(--rbde-blue) !important;
-}
-
-#myExplorer .xeokit-objectsTab ul li span,
-#myExplorer .xeokit-storeysTab ul li span,
-#myExplorer .xeokit-classesTab ul li span {
-    color: var(--rbde-white) !important;
-}
-
-#myExplorer .xeokit-objectsTab ul li span:hover,
-#myExplorer .xeokit-storeysTab ul li span:hover,
-#myExplorer .xeokit-classesTab ul li span:hover {
-    background: rgba(255, 255, 255, 0.10) !important;
-    color: var(--rbde-white) !important;
-}
-
-/* Context menu im RBDE-Stil */
+/* Context menu */
 .xeokit-context-menu,
 .xeokit-context-submenu {
-    background: rgba(255, 255, 255, 0.96) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
     border: 1px solid var(--rbde-blue) !important;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18) !important;
 }
 
 .xeokit-context-menu-item {
-    background: transparent !important;
     color: var(--rbde-blue) !important;
+    background: transparent !important;
 }
 
 .xeokit-context-menu-item:hover {
@@ -583,42 +501,249 @@ body {
 }
 
 .xeokit-context-menu-item-separator {
-    background: rgba(1, 77, 112, 0.20) !important;
+    background: rgba(15, 84, 124, 0.20) !important;
 }
 
-/* Busy modal */
+/* =========================================================
+   CHECKBOX / SCROLLBAR FIXES
+   ========================================================= */
+
+#myExplorer input[type="checkbox"],
+#myInspector input[type="checkbox"],
+.xeokit-modelsTab input[type="checkbox"],
+.xeokit-objectsTab input[type="checkbox"],
+.xeokit-classesTab input[type="checkbox"],
+.xeokit-storeysTab input[type="checkbox"] {
+    accent-color: var(--rbde-pink) !important;
+    -webkit-accent-color: var(--rbde-pink) !important;
+}
+
+.xeokit-tree-panel {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+.xeokit-tree-panel::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+}
+
+#myExplorer,
+#myInspector,
+#myToolbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#myExplorer::-webkit-scrollbar,
+#myInspector::-webkit-scrollbar,
+#myToolbar::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+}
+
+.xeokit-objectsTab ul li,
+.xeokit-storeysTab ul li,
+.xeokit-classesTab ul li {
+    width: auto !important;
+    max-width: 100% !important;
+}
+
+.xeokit-objectsTab ul li span,
+.xeokit-storeysTab ul li span,
+.xeokit-classesTab ul li span {
+    width: calc(100% - 50px) !important;
+    max-width: calc(100% - 50px) !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.xeokit-modelsTab .xeokit-form-check span {
+    width: calc(100% - 30px) !important;
+    max-width: calc(100% - 30px) !important;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.xeokit-busy-modal {
+    background-color: rgba(237, 240, 245, 0.78) !important;
+    backdrop-filter: blur(2px);
+}
+
 .xeokit-busy-modal-content {
-    border-color: var(--rbde-blue) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 2px solid var(--rbde-blue) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16) !important;
+    width: auto !important;
+    min-width: 320px !important;
+    max-width: min(560px, calc(100vw - 40px)) !important;
+    padding: 0 !important;
 }
 
 .xeokit-busy-modal-message {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    min-height: 92px !important;
+    margin: 0 !important;
+    padding: 22px 28px !important;
+    background: transparent !important;
     color: var(--rbde-blue) !important;
+    font-size: 20px !important;
+    line-height: 1.35 !important;
+    box-sizing: border-box;
 }
 
-/* Lizenz-/Copyright-Leiste unten über die ganze Breite */a
+/* =========================================================
+   COPYRIGHT
+   ========================================================= */
+
 #rbde-license-note {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 300000;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    padding: 0 14px;
-    background: rgba(1, 77, 112, 0.96);
-    color: #ffffff;
+    min-height: 28px;
+    display: block;
+    padding: 6px 14px;
+    background: rgba(15, 84, 124, 0.98);
+    color: var(--rbde-white);
     font-size: 12px;
-    line-height: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.35;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
     border-top: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
 }
 
-/* Damit unten nichts optisch kollidiert */
-#myExplorer,
-#myInspector {
-    padding-bottom: 120px;
+#rbde-license-note span,
+#rbde-license-note a {
+    display: inline;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+#rbde-license-note a {
+    color: #dff3fb;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+#rbde-license-note a:hover {
+    color: var(--rbde-white);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+    :root {
+        --toolbar-bottom: 52px;
+        --toolbar-radius: 14px;
+        --toolbar-pad-y: 5px;
+        --toolbar-pad-x: 8px;
+        --toolbar-btn-size: 36px;
+        --toolbar-btn-radius: 9px;
+        --toolbar-gap: 5px;
+    }
+
+    body {
+        font-size: 13px;
+    }
+
+    #myToolbar {
+        max-width: calc(100vw - 20px);
+    }
+
+    #myToolbar .xeokit-btn-group {
+        margin-right: 3px !important;
+    }
+
+    #myNavCubeCanvas {
+        width: 150px;
+        height: 150px;
+    }
+
+    .xeokit-busy-modal-content {
+        min-width: min(78vw, 320px) !important;
+        max-width: calc(100vw - 28px) !important;
+    }
+
+    .xeokit-busy-modal-message {
+        min-height: 78px !important;
+        padding: 18px 20px !important;
+        font-size: 17px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --toolbar-bottom: 50px;
+        --toolbar-radius: 12px;
+        --toolbar-pad-y: 4px;
+        --toolbar-pad-x: 6px;
+        --toolbar-btn-size: 32px;
+        --toolbar-btn-radius: 8px;
+        --toolbar-gap: 4px;
+    }
+
+    body {
+        font-size: 12px;
+    }
+
+    #myToolbar {
+        max-width: calc(100vw - 12px);
+    }
+
+    #myToolbar .xeokit-btn-group {
+        margin-right: 2px !important;
+    }
+
+    #myNavCubeCanvas {
+        width: 110px;
+        height: 110px;
+    }
+
+    #rbde-license-note {
+        font-size: 10px;
+        line-height: 1.35;
+        padding: 6px 8px;
+    }
+}
+
+.xeokit-context-menu,
+.xeokit-context-submenu {
+    z-index: 250000 !important;
+}
+
+/* =========================================================
+   MOBILE: Nur ein Toggle-Icon sichtbar, wenn Panel offen
+   ========================================================= */
+
+@media (max-width: 900px) {
+    body.mobile-explorer-open .inspector_toggle_label {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+
+    body.mobile-inspector-open .explorer_toggle_label {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
 }
